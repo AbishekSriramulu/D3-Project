@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Start-up Trends</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style_area.css">
+    <link href="http://fonts.googleapis.com/css?family=Muli" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:700italic" rel="stylesheet" type="text/css">
+    <script src="js/modernizr.js"></script>
+    <script src="js/pace.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+
+</head>
+
+<body id="top">
+    <header class="s-header">
+        <div class="header-logo">
+            <a class="site-logo" href="index.html">
+                <img src="images/logo.png" alt="Homepage">
+            </a>
+        </div>
+        <nav class="header-nav">
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
+            <div class="header-nav__content">
+                <h3>Startup_trends</h3>
+                <ul class="header-nav__list">
+                    <li class="current">
+                        <a class="smoothscroll" href="#home" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="#about" title="about">Market Trends</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="#services" title="services">Investor Patterns</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="#works" title="works">Potential Hubs</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="#contact" title="contact">References</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-icon"></span>
+        </a>
+    </header>
+    <section id="home" class="s-home target-section" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000
+        data-natural-height=2000 data-position-y=top>
+        <div class="shadow-overlay"></div>
+        <div class="home-content">
+
+
+            <!-- D3 GLOBE
+    ================================================== -->
+            <div class="row home-content__main">
+                <p style=" font-family:metropolis-regular,sans-serif; color: white; text-indent: 1.6rem;letter-spacing: 0.3rem;text-transform: uppercase;background-color:  rgba(204,20,127,0.65);">Globe with city-markers sized with respect to the number of startups.</p>
+                <svg width="820" height="620">
+                </svg>
+            </div>
+        </div>
+        <script>
+            var width = 820;
+            var height = 620;
+            var rScale = d3.scale.sqrt();
+            var max_count = [];
+            var time = Date.now();
+            var rotate = [0, 0];
+            var velocity = [.015, -0];
+            var projection = d3.geo.orthographic()
+                .scale(300)
+                .translate([(width / 2) + 100, height / 2])
+                .clipAngle(90)
+                .precision(0.3);
+            var path = d3.geo.path()
+                .projection(projection);
+            var svg = d3.select("svg");
+            var g = svg.append("g");
+            g.append("path")
+                .datum({ type: "Sphere" })
+                .attr("class", "sphere")
+                .attr("d", path)
+                .attr("stroke", "#181818")
+                .attr("stroke-width", "5")
+                .attr("fill", "#101010");
+            d3.json("data/globe.geojson", function (error, data) {
+                if (error) { return error; }
+                count_array = [];
+                for (i = 0; i < data.features.length; i++) {
+                    count_array.push(data.features[i].properties.Count);
+                }
+                max_count = count_array.sort(d3.descending)[0]
+                var rMin = 0;
+                var rMax = Math.sqrt(max_count / (6 * Math.PI));
+                rScale.domain([0, max_count]);
+                rScale.range([rMin, rMax]);
+                path.pointRadius(function (d) {
+                    return d.properties ? rScale(d.properties.Count) : 1;
+                });
+                g.selectAll("path.cities").data(data.features)
+                    .enter().append("path")
+                    .attr("class", "cities")
+                    .attr("d", path)
+                    .attr("fill", "#ffba00")
+                    .attr("fill-opacity", 0.5)
+                spinning_globe();
+            });
+            function spinning_globe() {
+                d3.timer(function () {
+                    var dt = Date.now() - time;
+                    projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+                    svg.selectAll("path.cities").attr("d", path);
+                });
+            }
+        </script>
+        <!-- end of D3 Globe -->
+
+        <ul class="home-sidelinks">
+            <li>
+                <a class="smoothscroll" href="#about">Market Trends
+                    <span>who attract funds</span>
+                </a>
+            </li>
+            <li>
+                <a class="smoothscroll" href="#services">Investor Patterns
+                    <span>understanding investors</span>
+                </a>
+            </li>
+            <li>
+                    <a class="smoothscroll" href="#works">Potential Hubs
+                        <span>where to start</span>
+                    </a>
+                </li>
+            <li>
+                <a class="smoothscroll" href="#contact">References
+                    <span>sources and inspirations</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end home-sidelinks -->
+
+        <a href="#about" class="home-scroll smoothscroll">
+            <span class="home-scroll__text">Scroll Down</span>
+            <span class="home-scroll__icon"></span>
+        </a>
+        <!-- end home-scroll -->
+
+    </section>
+    <!-- end s-home -->
+
+
+    <!-- Market Trends
+    ================================================== -->
+    <section id='about' class="s-about">
+
+        <div class="row section-header" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead">Who Attract Funds</h3>
+                <h1 class="display-1">Market Trends</h1>
+            </div>
+        </div>
+        <!-- end section-header -->
+
+        <div class="row" data-aos="fade-up">
+            <div class="col-full">
+                <p class="lead">
+                    The biotechnology industry hauled a 32% increase over the period 2015-2016, there was a venture funding bloom in the biotech
+                    industry which might be the reason why biotech start-ups have raised more money than others.
+                    <br> “In the biotech space, that’s an all-time high,” said Greg Vlahos, a life science partner at PwC
+                    <a
+                        href="https://www.forbes.com/sites/arleneweintraub/2015/07/21/biotech-investing-hits-an-all-time-high-but-is-it-a-bubble/#3065b0572fb8">(biotech-investing-hits-an-all-time-high, 2015)</a>.
+                    <br> Followed by biotechnology, web hosting industry have started to raise more funds recently.
+                </p>
+                <!-- D3 area chart start
+    ================================================== -->
+
+                <div id="areaMain">
+
+                    <div id="_buttons">Select Market: &nbsp;</div>
+                    <div class="container chart" id="areachart1">
+                    </div>
+                    <br>
+                    <div class="container chart" id="areachart2">
+                    </div>
+                </div>
+                <script>
+
+                    var top10 = ["Biotechnology", "Software", "Clean Technology", "Health Care", "E-Commerce", "Mobile", "Semiconductors", "Advertising", "Web Hosting", "Curated Web"];
+
+                    var area_char_col = d3.scale.ordinal()
+                        .range(["#46f0f0", "#e6194b", "#3cb44b", "#ffe119", "#0082c8", "#f58231", "#911eb4", "#f032e6", "#008080", "#aa6e28", "#808000", "#ffd8b1", "#b9ff53", "#aaffc3"])
+                        .domain(top10);
+
+                    t_list = [];
+                    for (i = 0; i < top10.length; i++) {
+                        t_list.push(top10[i].replace(/ /g, ''));
+                    }
+
+
+                    var i = 1
+
+
+                    for (i = 0; i < t_list.length; i++) {
+                        if (i == 0) {
+                            $("#_buttons").append('<button class="areaButton" autofocus style="background-color:' + area_char_col(t_list[i]) + '" onClick="updateData(\'' + t_list[i] + '\')">' + t_list[i] + "</button>");
+                        }
+                        else {
+                            $("#_buttons").append('<button class="areaButton" style="background-color:' + area_char_col(t_list[i]) + '" onClick="updateData(\'' + t_list[i] + '\')">' + t_list[i] + "</button>");
+                        }
+                    }
+
+                    var areaMargin = { top: 30, right: 20, bottom: 30, left: 160 },
+                        width = 850 - areaMargin.left - areaMargin.right,
+                        height = 230 - areaMargin.top - areaMargin.bottom;
+
+                    var parseDate = d3.time.format("%Y-%m").parse,
+                        bisectDate = d3.bisector(function (d) { return d.date; }).left;
+
+                    var areaX = d3.time.scale()
+                        .range([0, width]);
+
+                    var y1 = d3.scale.linear()
+                        .range([height, 0]);
+
+                    var y2 = d3.scale.linear()
+                        .range([0, height]);
+
+                    var y1small = d3.scale.linear()
+                        .range([height, 0]);
+
+                    var y2small = d3.scale.linear()
+                        .range([0, height]);
+
+
+                    var areaXaxis = d3.svg.axis()
+                        .scale(areaX)
+                        .orient("bottom");
+
+                    var yAxis1 = d3.svg.axis()
+                        .scale(y1)
+                        .orient("left");
+
+                    var yAxis2 = d3.svg.axis()
+                        .scale(y2)
+                        .orient("left");
+
+                    var area1 = d3.svg.area()
+                        .interpolate("linear")
+                        .x(function (d) { return areaX(d.date); })
+                        .y0(height)
+                        .y1(function (d) { return y1(d.startup); });
+
+                    var area1Small = d3.svg.area()
+                        .interpolate("linear")
+                        .x(function (d) { return areaX(d.date); })
+                        .y0(height)
+                        .y1(function (d) { return y1small(d.startup); });
+
+                    var area2 = d3.svg.area()
+                        .interpolate("linear")
+                        .x(function (d) { return areaX(d.date); })
+                        .y0(0)
+                        .y1(function (d) { return y2(d.funding); });
+
+                    var area2Small = d3.svg.area()
+                        .interpolate("linear")
+                        .x(function (d) { return areaX(d.date); })
+                        .y0(0)
+                        .y1(function (d) { return y2small(d.funding); });
+
+                    var svg1 = d3.select("#areachart1").append("svg").attr("id", '#area_market')
+                        .attr("width", width + 100 + areaMargin.left + areaMargin.right)
+                        .attr("height", height + areaMargin.top + areaMargin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + areaMargin.left + "," + areaMargin.top + ")");
+
+                    var svg2 = d3.select("#areachart2").append("svg")
+                        .attr("width", width + 100 + areaMargin.left + areaMargin.right)
+                        .attr("height", height + areaMargin.top + areaMargin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + areaMargin.left + "," + areaMargin.top + ")");
+
+
+
+                    var vertical = d3.select("#areachart1")
+                        .append("div")
+                        .style("position", "absolute")
+
+                        .style("width", "3px")
+                        .style("height", "400px")
+                        .style("top", "1300px")
+                        .style("bottom", "30px")
+                        .style("background", "#fff")
+                        .style("opacity", 0);
+
+
+                    d3.csv("data/areachart.csv", function (error, data) {
+                        if (error) throw error;
+
+
+
+                        data.forEach(function (d) {
+                            var market = '';
+                            allData = data.filter(function (row) {
+
+                                return row['market'] == 'All';
+                            })
+                            d.date = parseDate(d.date);
+                            d.startup = +d.startup;
+                            d.funding = +d.funding;
+
+                            subData = data.filter(function (row) {
+                                return row['market'] == 'Biotechnology';
+                            })
+                            d.startup = +d.startup;
+                            d.funding = +d.funding;
+
+                        });
+
+                        var maxStartup = [d3.max(allData, function (d) { return d.startup; }), d3.max(subData, function (d) { return d.startup; })];
+                        var maxFunding = [d3.max(allData, function (d) { return d.funding; }), d3.max(subData, function (d) { return d.funding; })];
+
+                        areaX.domain(d3.extent(allData, function (d) { return d.date; }));
+
+
+                        y1.domain([0, 1800]);
+                        y1small.domain([0, 1800]);
+                        y2.domain([0, 53000000]);
+                        y2small.domain([0, 53000000]);
+
+                        svg1.append("path")
+                            .datum(allData)
+                            .attr("class", "area")
+                            .attr("d", area1);
+
+
+                        svg1.append("path")
+                            .datum(subData)
+                            .attr("class", "areaY1Small")
+                            .attr("d", area1Small)
+                            .style("fill", function (d) { return area_char_col("Biotechnology"); });
+
+
+
+                        svg1.append("g")
+                            .attr("class", "yAxis")
+                            .call(yAxis1)
+                            .append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 6)
+                            .attr("dy", ".71em")
+                            .style("text-anchor", "end")
+                            .text("No. of Startups Funded");
+
+
+                        var focus1 = svg1.append("g")
+                            .attr("class", "focus")
+                            .style("display", "none");
+
+                        focus1.append("circle")
+                            .attr("r", 4.5);
+
+                        focus1.append("text")
+                            .attr("x", 9)
+                            .attr("dy", ".35em");
+
+                        var focus1small = svg1.append("g")
+                            .attr("class", "focus")
+                            .style("display", "none");
+
+                        focus1small.append("circle")
+                            .attr("r", 4.5);
+
+                        focus1small.append("text")
+                            .attr("x", 9)
+                            .attr("dy", ".35em");
+
+                        svg2.append("path")
+                            .datum(allData)
+                            .attr("class", "area")
+                            .attr("d", area2);
+
+                        svg1.append("rect")
+                            .attr("class", "overlay")
+                            .attr("width", width)
+                            .attr("height", height)
+                            .on("mouseover", function () {
+                                focus1.style("display", null);
+                                focus1small.style("display", null);
+                            })
+                            .on("mouseout", function () {
+                                focus1.style("display", "none");
+                                focus1small.style("display", "none");
+                            })
+                            .on("mousemove", mousemove1);
+
+                        function mousemove1() {
+                            var x0 = areaX.invert(d3.mouse(this)[0]),
+                                i = bisectDate(allData, x0, 1),
+                                d0 = allData[i - 1],
+                                d1 = allData[i],
+                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            console.log(y1(d.startup));
+                            focus1.attr("transform", "translate(" + areaX(d.date) + "," + y1(d.startup) + ")");
+                            focus1.select("text").text(d.startup);
+
+                            i = bisectDate(subData, x0, 1);
+                            d0 = subData[i - 1];
+                            d1 = subData[i];
+                            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            focus1small.attr("transform", "translate(" + areaX(d.date) + "," + y1small(d.startup) + ")");
+                            focus1small.select("text").text(d.startup);
+
+                        }
+
+
+                        svg2.append("path")
+                            .datum(subData)
+                            .attr("class", "areaY2Small")
+                            .attr("d", area2Small)
+                            .style("fill", function (d) { return area_char_col("Biotechnology"); });;
+
+                        svg2.append("g")
+                            .attr("class", "areaXaxis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(areaXaxis)
+                            .attr("stroke-width", 1);
+
+                        svg2.append("g")
+                            .attr("class", "yAxis")
+                            .call(yAxis2)
+                            .append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 6)
+
+                            .attr("dy", ".71em")
+                            .style("text-anchor", "end")
+                            .text("Avg Amount Raised");
+
+                        var focus2 = svg2.append("g")
+                            .attr("class", "focus")
+                            .style("display", "none");
+
+                        focus2.append("circle")
+                            .attr("r", 4.5);
+
+                        focus2.append("text")
+                            .attr("x", 9)
+                            .attr("dy", ".35em");
+
+                        var focus2small = svg2.append("g")
+                            .attr("class", "focus")
+                            .style("display", "none");
+
+                        focus2small.append("circle")
+                            .attr("r", 4.5);
+
+                        focus2small.append("text")
+                            .attr("x", 9)
+                            .attr("dy", ".35em");
+
+                        svg2.append("rect")
+                            .attr("class", "overlay")
+                            .attr("width", width)
+                            .attr("height", height)
+                            .on("mouseover", function () {
+                                focus2.style("display", null);
+                                focus2small.style("display", null);
+                            })
+                            .on("mouseout", function () {
+                                focus2.style("display", "none");
+                                focus2small.style("display", "none");
+                            })
+                            .on("mousemove", mousemove2);
+
+                        function mousemove2() {
+                            var x0 = areaX.invert(d3.mouse(this)[0]),
+                                i = bisectDate(allData, x0, 1),
+                                d0 = allData[i - 1],
+                                d1 = allData[i],
+                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            console.log(y2(d.funding));
+                            focus2.attr("transform", "translate(" + areaX(d.date) + "," + y2(d.funding) + ")");
+                            focus2.select("text").text(d.funding);
+
+                            i = bisectDate(subData, x0, 1);
+                            d0 = subData[i - 1];
+                            d1 = subData[i];
+                            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            focus2small.attr("transform", "translate(" + areaX(d.date) + "," + y2small(d.funding) + ")");
+                            focus2small.select("text").text(d.funding);
+
+                        }
+
+                    });
+
+
+                    var curIndex = -1;
+
+                    var intervalID = setInterval(function () {
+                        ++curIndex;
+                        if (curIndex >= t_list.length) {
+                            curIndex = 0;
+                        }
+                        updateData(t_list[curIndex]);
+                    }, 10000);
+
+
+
+
+                    function updateData(market) {
+                       
+
+                        d3.csv("data/areachart.csv", function (error, data) {
+                            if (error) throw error;
+
+
+
+                            data.forEach(function (d) {
+
+                                allData = data.filter(function (row) {
+
+                                    return row['market'] == 'All';
+                                })
+                                d.date = parseDate(d.date);
+                                d.startup = +d.startup;
+                                d.funding = +d.funding;
+
+                                subData = data.filter(function (row) {
+                                    return row['market'].replace(/ /g, '') == market;
+                                })
+                                d.startup = +d.startup;
+                                d.funding = +d.funding;
+                            });
+
+                            areaX.domain(d3.extent(allData, function (d) { return d.date; }));
+
+
+                            y1.domain([0, 1800]);
+                            y1small.domain([0, 1800]);
+                            y2.domain([0, 53000000]);
+                            y2small.domain([0, 53000000]);
+
+
+                            d3.selectAll("path.areaY1Small")
+                                .datum(subData)
+                                .transition()
+                                .duration(500)
+                                .style("fill", function (d) { return area_char_col(market); })
+                                .attr("d", area1Small);
+                            
+
+
+                            d3.selectAll("path.areaY2Small")
+                                .datum(subData)
+                                .transition()
+                                .duration(500)
+                                .style("fill", function (d) { return area_char_col(market); })
+                                .attr("d", area2Small);
+
+
+                        });
+                    }
+
+                </script>
+
+                <!-- D3 area chart end
+    ================================================== -->
+
+
+            </div>
+        </div>
+        <!-- end about-desc -->
+    </section>
+
+
+
+
+    <!-- end s-about -->
+
+
+    <!-- services
+    ================================================== -->
+    <section id='services' class="s-services light-gray">
+
+        <div class="row section-header" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead">Understanding Inverstors</h3>
+                <h1 class="display-1">Investor Patterns</h1>
+            </div>
+        </div>
+        <!-- end section-header -->
+
+
+
+        <div class="row" data-aos="fade-up">
+            <div class="col-full">
+                <p class="lead">
+                    We can see spikes during the first quarters of all years. This leads us to the following two assumptions: </p>
+                <ul class="lead">
+                    <li class="lead" style="font-size: 2.4rem;"> Investors tend to be more enthusiastic and approach optimistic as it is the beginning of the brand new
+                        year. </li>
+                    <li class="lead" style="font-size: 2.4rem;">As we know, most deals are closed during the end of fiscal year; may be those deals are disclosed late
+                        in january.</li>
+                </ul>
+                <p class="lead" style="font-size: 2.4rem;">
+                    The drop during 2008 is proof that the 2008 Financial crisis had caused serious damage to the startup ecosystem
+                    <a
+                        href=h ttps://techcrunch.com/2008/07/01/the-crisis-in-venture-capital/>(the-crisis-in-venture-capital,2008) </a> .
+                </p>
+
+
+
+                <!-- D3 stream chart start
+    ================================================== -->
+
+                <script type="text/javascript">
+                    function autoResize(id) {
+                        var newheight;
+
+
+                        if (document.getElementById) {
+                            newheight = document.getElementById(id).contentWindow.document.body.scrollHeight;
+
+                        }
+
+                        document.getElementById(id).height = (newheight) + "px";
+
+                    }
+                </script>
+                <style>
+                    iframe {
+                        display: block;
+                        width: 100%;
+                    }
+
+                    div#content {
+                        position: fixed;
+                        top: 80px;
+                        left: 40px;
+                        bottom: 25px;
+                        min-width: 200px;
+                        width: 40%;
+                        background: black;
+                    }
+
+                    div#content iframe {
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 100%;
+                        width: 100%;
+                    }
+                </style>
+                <div id - 'content'>
+                    <iframe src="images/iframe/stream.html" frameborder="0" scrolling='no' width="100%" id='ifrm' onload="autoResize('ifrm')"></iframe>
+                </div>
+                <!-- D3 stream chart end
+    ================================================== -->
+            </div>
+        </div>
+        </div>
+        <!-- end about-desc -->
+
+
+    </section>
+    <!-- end s-services -->
+
+
+    <!-- works
+    ================================================== -->
+    <section id='works' class="s-works">
+
+        <div class="row section-header" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead">Where to Start</h3>
+                <h1 class="display-1">Potential Startup-Hubs, other than california</h1>
+            </div>
+        </div>
+        <!-- end section-header -->
+
+
+        <div class="row" data-aos="fade-up">
+            <div class="col-full">
+                <p class="lead">
+                    Since very high numbers of california blinds the potential of other startup hubs, I decided to explore other places where start-ups can have less competition but no less benefits than valley.
+           <br> We can see that outside california New York City is where most investors recide. Followed by Massachusetts, powered by great academic scenes. <br>
+Austin, Houston and Dallas together pull Texas up to the third place, directly before the State of Washington.
+                </p>
+
+<style>
+    .mapcontainer {
+  display: grid;
+  grid-template-columns: 2fr 2fr; 
+}
+</style>
+
+
+                <!-- D3 Map start
+    ================================================== -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<div class="mapcontainer">
+    <div class:"map" id="map2"></div>
+    <div class:"map" id="map1"></div>
+</div>
+
+  <script>
+
+  Plotly.d3.csv('data/state-data_2.csv', function(err, rows){
+      function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; });
+      }
+ var data = [{
+              type: 'choropleth',
+              locationmode: 'USA-states',
+              locations: unpack(rows, 'id'),
+              z: unpack(rows, 'Total'),
+              autocolorscale: true
+          }];
+
+
+  var layout = {
+          title: 'USA: Total Investments made by State',
+          geo:{
+            scope: 'usa',
+            countrycolor: 'rgb(255, 255, 255)',
+            showland: true,
+            landcolor: 'rgb(217, 217, 217)',
+            showlakes: true,
+            lakecolor: 'rgb(255, 255, 255)',
+            subunitcolor: 'rgb(255, 255, 255)',
+            lonaxis: {},
+            lataxis: {}
+          }
+      };
+      Plotly.plot(map2, data, layout, {showLink: false});
+  });
+
+    Plotly.d3.csv('data/state-data_2.csv', function(err, rows){
+      function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; });
+      }
+ var data = [{
+              type: 'choropleth',
+              locationmode: 'USA-states',
+              locations: unpack(rows, 'id'),
+              z: unpack(rows, 'Count'),
+              autocolorscale: true
+          }];
+  var layout = {
+          title: 'USA: No. of Investors by State',
+          geo:{
+            scope: 'usa',
+            countrycolor: 'rgb(255, 255, 255)',
+            showland: true,
+            landcolor: 'rgb(217, 217, 217)',
+            showlakes: true,
+            lakecolor: 'rgb(255, 255, 255)',
+            subunitcolor: 'rgb(255, 255, 255)',
+            lonaxis: {},
+            lataxis: {}
+          }
+      };
+      Plotly.plot(map1, data, layout, {showLink: false});
+  });
+                </script>
+                
+                <!-- D3 Map end
+    ================================================== -->
+            </div>
+        </div>
+        </div>
+        <!-- end about-desc -->
+
+
+    </section>
+    <!-- end s-services -->
+
+
+
+
+
+    <!-- References
+    ================================================== -->
+    <section id="contact" class="s-contact" style="padding-top: 10rem;">
+
+        <div class="row section-header" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead subhead--light"> References </h3>
+                <a> Data Source: <br> <br>   Crunchbase, Github, bls.gov</a>
+                <br> <br>  <br> <br>
+                <a>Motivations & References: </a> <br> <br>
+                <a>https://plot.ly/javascript/choropleth-maps</a>  <br>
+                <a>https://colorlib.com/wp/template/transcend</a>  <br>
+                <a>http://crunchinator.com/#/crunchinator</a>  <br>
+                <a>http://bl.ocks.org/PatrickStotz/1f19b3e4cb848100ffd7</a>  <br>
+                <a>http://nvd3.org/examples/stackedArea.html</a>  <br>
+                <a>http://bl.ocks.org/WillTurman/4631136</a>  <br>
+            </div>
+            <!-- end contact-secondary -->
+
+        </div>
+        <!-- end row -->
+
+        <div class="cl-go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top">
+                <i class="icon-arrow-up" aria-hidden="true"></i>
+            </a>
+        </div>
+
+    </section>
+    <!-- end s-contact -->
+
+
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader">
+        </div>
+    </div>
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

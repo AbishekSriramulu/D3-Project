@@ -1,0 +1,97 @@
+body {
+  
+  color: white;
+}
+
+.yAxis path,
+.yAxis line {
+  fill: none;
+  stroke: white;
+/*>>>>>>> Master*/
+  shape-rendering: crispEdges;
+}
+.yAxis {
+  fill:white;
+}
+.areaXaxis path,
+.areaXaxis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+.areaXaxis {
+  fill: white;
+}
+.area {
+  fill: white;
+  stroke-width: 0;
+  opacity: 0.3;
+}
+
+.areaY1Small {
+  fill: maroon;
+  stroke-width: 0;
+  opacity: 0.7;
+}
+
+.areaY2Small {
+  fill: maroon;
+  stroke-width: 0;
+  opacity: 0.7;
+}
+
+
+.areaButton {
+  background-color: blue;
+  color: black;
+  border: none;
+  margin: 5px;
+  border-style: solid;
+
+}
+
+button:focus {
+    border: 2px solid white;
+
+}
+
+#areachart2 {
+	background-color: #2f3939;
+  margin-top: -50px;
+}
+
+
+#areaMain{
+	background-color: #2f3939;
+}
+.focus circle {
+  fill: none;
+  stroke: white;
+}
+.focus text {
+  fill: white;
+  stroke: none;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+
+#chart {
+  height: 550px;
+  width: 300px;
+}
+
+#chart2 {
+  height: 550px;
+  width: 200px;
+}
+
+#area_market {
+	
+  shape-rendering: round;
+}
+
+
