@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+		.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: rgba(33,168,159,0.88);
+			border-color: #285e8e;}
+      body {
+        font: 9px sans-serif;
+        color: #121401;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #121401;
+        stroke-width: 2px;
+        shape-rendering: crispEdges;
+      }
+      .point {
+        stroke: grey;
+        stroke-width: 3px;
+        opacity: 0;
+      }
+      .point:hover{
+        opacity: .5;
+      }
+      .btn-group {
+        padding-left: 60px;
+      }
+	*::-moz-placeholder {
+    color: #626262;
+}
+element {
+}
+.btn, button, input[type="submit"], input[type="reset"], input[type="button"] {
+    display: inline-block;
+    font-family: "metropolis-semibold", sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+    height: 5.4rem;
+    line-height: 5rem;
+    padding: 0 3rem;
+    margin: 0 0.3rem 1.2rem 0;
+    color: #000000;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: rgba(38,191,181,0.78);
+    border: 0.2rem solid #c5c5c5;
+}
+button, .btn {
+    margin-bottom: 1.2rem;
+}
+label, legend {
+    font-family: "metropolis-semibold", sans-serif;
+    font-size: 1.4rem;
+    font-weight: normal;
+    margin-bottom: 0.9rem;
+    line-height: 1.714;
+    color: #000000;
+    display: block;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+.s-services {
+    color: #555555;
+}
+
+body, input, button {
+    -moz-osx-font-smoothing: grayscale;
+}
+
+		button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+*::-moz-placeholder {
+    color: #626262;
+}
+element {
+}
+label > input[type="checkbox"], label > input[type="radio"] {
+    margin: 0;
+    position: relative;
+    top: 0.15rem;
+}
+input[type="checkbox"], input[type="radio"] {
+    display: inline;
+}
+[type="checkbox"], [type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+input, textarea, select, pre, blockquote, figure, table, p, ul, ol, dl, form, .video-container, .cl-custom-select {
+    margin-bottom: 3rem;
+}
+body, input, button {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+button, input {
+    overflow: visible;
+}
+button, input, optgroup, select, textarea {
+    font-family: sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+.btn, button, input[type="submit"], input[type="reset"], input[type="button"] {
+    font-family: "metropolis-semibold", sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+    line-height: 5rem;
+    color: #000000;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+}
+label, legend {
+    font-family: "metropolis-semibold", sans-serif;
+    font-size: 1.4rem;
+    font-weight: normal;
+    line-height: 1.714;
+    color: #000000;
+}
+.s-services {
+    color: #555555;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="col-md-10 col-md-offset-1" id="chart">
+      <h4 style="padding-left:60px;">No. of Deals Closed Every Quarter</h4>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active" id="sbar">
+          <input type="radio" name="options"> Bar
+        </label>
+        <label class="btn btn-primary" id="line">
+          <input type="radio" name="options"> Line
+        </label>
+        <label class="btn btn-primary" id="area">
+          <input type="radio" name="options"> Area
+        </label>
+        <label class="btn btn-primary" id="strm">
+          <input type="radio" name="options"> Stream
+        </label>
+      </div>
+    </div>
+    <script src="lib/d3.js"></script>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/bootstrap.js"></script>
+    <script src="lib/chart.js"></script>
+    <script>
+      d3.csv("data/fund_investor.csv", function (error, data) {
+        VIZ.stackBarChart($.extend(true, [], data));
+
+        $( ".btn" ).click(function() {
+          VIZ.clearAll();
+          if (this.id == 'sbar') {
+            VIZ.stackBarChart($.extend(true, [], data));
+          } else if (this.id == 'line') {
+            VIZ.lineChart(data);
+          } else if (this.id == 'area') {
+            VIZ.stackChart(data, 'zero');
+          } else {
+            VIZ.stackChart(data, 'wiggle');
+          } 
+        });
+      });
+
+		
+		var curIndex = -1;
+var t_list =['#sbar','#line', '#area','#strm'] 
+var intervalID = setInterval(function() {
+    ++curIndex;
+    if (curIndex >= t_list.length) {
+        curIndex = 0;
+    }
+	$(t_list[curIndex]).trigger('click');
+}, 5000);
+
+    </script>
+  </body>
+</html>
